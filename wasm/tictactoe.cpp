@@ -54,8 +54,8 @@ int evaluate(char b[3][3])
 int minimax(char board[3][3], int depth, int alpha, int beta, bool isMax)
 {
     int score = evaluate(board);
-    if (score == 10) return score - depth;
-    if (score == -10) return score + depth;
+    if (score > 0) return score - depth;
+    if (score < 0) return score + depth;
     if (!isMovesLeft(board)) return 0;
     if (isMax)
     {
