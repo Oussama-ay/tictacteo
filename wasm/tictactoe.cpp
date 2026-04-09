@@ -51,31 +51,30 @@ int	evaluate(char b[3][3])
 	return 0;
 }
 
-int	negamax(char board[3][3], int depth, int alpha, int beta, int color)
+int negamax(char board[3][3], int depth, int alpha, int beta, int color)
 {
-	int score = evaluate(board);
-	if (score > 0) return color * (score - depth);
-	if (score < 0) return color * (score + depth);
-	if (!isMovesLeft(board)) return 0;
+    int score = color * evaluate(board);
+    if (score > 0) return score - depth;
+    if (score < 0) return score + depth;
+    if (!isMovesLeft(board)) return 0;
 
-	int best = INT_MIN;
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			if (board[i][j] == '_')
-			{
-				board[i][j] = (color == 1) ? player : opponent;
-				int val = -negamax(board, depth + 1, -beta, -alpha, -color);
-				board[i][j] = '_';
-
-				best = std::max(best, val);
-				alpha = std::max(alpha, val);
-				if (alpha >= beta) return best;
-			}
-		}
-	}
-	return best;
+    int best = -100000;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (board[i][j] == '_')
+            {
+                board[i][j] = (color == 1) ? player : opponent;
+                int val = -negamax(board, depth + 1, -beta, -alpha, -color);
+                board[i][j] = '_';
+                best = std::max(best, val);
+                alpha = std::max(alpha, val);
+                if (alpha >= beta) return best;
+            }
+        }
+    }
+    return best;
 }
 
 EMSCRIPTEN_KEEPALIVE
@@ -94,7 +93,7 @@ int	find_best_move(char* board_flat)
 			if (board[i][j] == '_')
 			{
 				board[i][j] = player;
-				int moveVal = -negamax(board, 1, INT_MIN, INT_MAX, -1);
+				int moveVal = -negamax(board, 1, -100000, 100000, -1);
 				board[i][j] = '_';
 				if (moveVal > bestVal)
 				{
