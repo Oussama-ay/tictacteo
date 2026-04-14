@@ -10,15 +10,14 @@ A browser-based Tic Tac Toe game with an unbeatable AI opponent written in C++ a
 
 ## Project Structure
 ```
-├── index.html        # Main HTML file
-├── style.css         # Game styling
-├── main.js           # Game logic and JS↔WASM integration
-├── wasm/
-│   ├── tictactoe.cpp # C++ AI source code
-│   ├── tictactoe.js  # Emscripten JS glue (generated)
-│   └── tictactoe.wasm# WebAssembly binary (generated)
+├── index.html         # Main HTML file
+├── style.css          # Game styling
+├── main.js            # Game logic and JS↔WASM integration
+└── wasm/
+    ├── tictactoe.cpp  # C++ AI source code
+    ├── tictactoe.js   # Emscripten JS glue (generated)
+    └── tictactoe.wasm # WebAssembly binary (generated)
 ```
-
 ## How It Works
 - The frontend is a simple static site (HTML/CSS/JS).
 - The AI logic is written in C++ and compiled to WASM.
@@ -39,17 +38,7 @@ A browser-based Tic Tac Toe game with an unbeatable AI opponent written in C++ a
    emcc tictactoe.cpp -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_find_best_move","_malloc","_free"]' -o tictactoe.js
    ```
 
-## Running Locally
-1. Start a static server (from the project root):
-   ```bash
-   python3 -m http.server 8000
-   ```
-2. Open your browser to [http://localhost:8000](http://localhost:8000)
-
 ## Play
 - Click a cell to make your move (you are X).
 - The AI (O) will respond instantly.
 - Win, lose, or draw—the game will display the result and let you restart.
-
-## License
-MIT
